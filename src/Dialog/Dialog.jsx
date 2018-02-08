@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import Form from 'react-jsonschema-form';
 import {Dialog, ProgressBar, Intent, Button} from '@blueprintjs/core';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 
 import {removeEmpty, toServerData} from './utils';
 import {getSchema, getLoadingState} from './DialogSelectors';
@@ -37,16 +38,23 @@ export class GeneratedDialog extends Component {
    * @override
    */
   componentDidMount() {
-    const {baseSchema, action} = this.props;
+    const {
+      baseSchema,
+      action,
+      customizeSchema,
+    } = this.props;
 
-    this.props.prepareSchema(baseSchema.schema, action, baseSchema.parent);
+    this.props.prepareSchema(baseSchema.schema, action, baseSchema.parent, customizeSchema);
   }
 
   componentWillReceiveProps(nextProps) {
-    const {action} = this.props;
+    const {
+      action,
+      customizeSchema,
+    } = this.props;
 
     if (!isEqual(this.props.baseSchema.schema, nextProps.baseSchema.schema)) {
-      this.props.prepareSchema(nextProps.baseSchema.schema, action, nextProps.baseSchema.parent);
+      this.props.prepareSchema(nextProps.baseSchema.schema, action, nextProps.baseSchema.parent, customizeSchema);
     }
   }
 
@@ -81,7 +89,8 @@ export class GeneratedDialog extends Component {
       customTitle,
       customButtonLabel,
       schema,
-      data
+      data,
+      customData,
     } = this.props;
     const title = customTitle ? customTitle : `${action[0].toUpperCase() + action.slice(1)}` +
       ` ${baseSchema.title}`;
@@ -118,8 +127,9 @@ export class GeneratedDialog extends Component {
                   formData={
                     propertiesOrder.reduce(
                       (result, item) => {
-                        result[item] = data[item] !== undefined ?
-                          data[item] :
+                        const currentData = isEmpty(customData) ? data : customData;
+                        result[item] = currentData[item] !== undefined ?
+                          currentData[item] :
                           required.includes(item) ? properties[item].default : undefined;
                         return result;
                       }, {}
@@ -158,9 +168,11 @@ export class GeneratedDialog extends Component {
 GeneratedDialog.defaultProps = {
   action: 'create',
   data: {},
+  customData: {},
   onChange: () => {},
   onSubmit: () => {},
   uiSchema: {},
+  customizeSchema: schema => schema,
 };
 
 if (process.env.NODE_ENV !== 'production') {

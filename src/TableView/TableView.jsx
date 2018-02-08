@@ -47,7 +47,7 @@ import {
   isAnyDialogOpen
 } from '../Dialog/DialogSelectors';
 
-import Dialog from '../Dialog/Dialog';
+import DialogComponent from '../Dialog/Dialog';
 
 import {
   openDialog,
@@ -55,7 +55,13 @@ import {
 } from '../Dialog/DialogActions';
 import {Alert, Intent} from '@blueprintjs/core';
 
-export const getTableView = (schema, Table = TableComponent, isChildView = false, options = {}) => {
+export const getTableView = (
+  schema,
+  Table = TableComponent,
+  isChildView = false,
+  options = {},
+  Dialog = DialogComponent
+) => {
   const schemaId = schema.id;
   const schemaTitle = schema.title;
 
