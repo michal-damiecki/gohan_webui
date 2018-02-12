@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import {Observable} from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
 import {getCollection} from './../api';
 import {getSchema} from './SchemaSelectors';
@@ -68,9 +69,17 @@ export function toLocalSchema(schema, state, parentProperty, uiSchema = {}) {
           const enumValues = [];
           const options = {};
 
-          // if (uiSchema['ui:customLabel']) {
-
-          // }
+            // if (uiSchema['ui:customLabel']) {
+            //   Observable.zip(
+            //     data.map(item =>)
+            //     call(getCollection, state, 'site', {}, sitesQuery),
+            //     call(getCollection, state, 'network', {}, networksQuery),
+            //   )
+            //   .map(([
+            //     siteResp,
+            //     networkResp,
+            //   ])
+            // }
 
           data.forEach(value => {
             enumValues.push(value.id);
