@@ -68,6 +68,10 @@ export function toLocalSchema(schema, state, parentProperty, uiSchema = {}) {
           const enumValues = [];
           const options = {};
 
+          // if (uiSchema['ui:customLabel']) {
+
+          // }
+
           data.forEach(value => {
             enumValues.push(value.id);
             options[value.id] = value.name || value.id;
@@ -80,7 +84,7 @@ export function toLocalSchema(schema, state, parentProperty, uiSchema = {}) {
           reject(error);
         });
     } else if (result.type === 'array') {
-      const promise = toLocalSchema(result.items, state, parentProperty);
+      const promise = toLocalSchema(result.items, state, parentProperty, uiSchema);
 
       promise.then(data => {
         result.items = data;
