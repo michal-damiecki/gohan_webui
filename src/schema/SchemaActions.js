@@ -1,8 +1,12 @@
 import axios from 'axios';
 // import {Observable} from 'rxjs';
 import cloneDeep from 'lodash/cloneDeep';
-import {getCollection} from './../api';
+import {
+  // get,
+  getCollection,
+} from './../api';
 import {getSchema} from './SchemaSelectors';
+// import {getGohanUrl} from '../config/ConfigSelectors';
 
 import {FETCH_SUCCESS, FETCH_ERROR} from './SchemaActionTypes';
 
@@ -70,15 +74,22 @@ export function toLocalSchema(schema, state, parentProperty, uiSchema = {}) {
           const options = {};
 
             // if (uiSchema['ui:customLabel']) {
+            //   const headers = {
+            //     'Content-Type': 'application/json',
+            //     'X-Auth-Token': state.authReducer.tokenId
+            //   };
+            //   const arr = uiSchema['ui:customLabel'].split('%');
+            //   const [prefix, separator, name] = uiSchema['ui:customLabel']
             //   Observable.zip(
-            //     data.map(item =>)
-            //     call(getCollection, state, 'site', {}, sitesQuery),
-            //     call(getCollection, state, 'network', {}, networksQuery),
+            //     data.map(item => get(
+            //       `${getGohanUrl(state)}${relatedSchema.url}/${item.id}`,
+            //       headers,
+            //     ))
             //   )
-            //   .map(([
-            //     siteResp,
-            //     networkResp,
-            //   ])
+            //   .do(response => console.log('response', response))
+            //   .subscribe(responseArray => {
+            //     console.log('responseArray', responseArray);
+            //   });
             // }
 
           data.forEach(value => {
